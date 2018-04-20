@@ -132,13 +132,16 @@ exports.htmlPlugin = function () {
   let arr = []
   entryHtml.forEach((filePath) => {
     let filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'))
+    let chunks = filename === 'admin' ?
+      ['manifest','vendor','vendor-admin',filename] :
+      ['manifest','vendor','vendor-index',filename]
     let conf = {
       // 模板来源
       template: filePath,
       // 文件名称
       filename: filename + '.html',
       // 页面模板需要加对应的js脚本，如果不加这行则每个页面都会引入所有的js脚本
-      chunks: ['manifest', 'vendor', filename],
+      chunks: chunks,
       inject: true
     }
     if (process.env.NODE_ENV === 'production') {
@@ -148,7 +151,11 @@ exports.htmlPlugin = function () {
           collapseWhitespace: true,
           removeAttributeQuotes: true
         },
-        chunksSortMode: 'dependency'
+        chunksSortMode: function (chunk1, chunk2) {
+          var order1 = chunks.indexOf(chunk1.names[0])
+          var order2 = chunks.indexOf(chunk2.names[0])
+          return order1 - order2
+        },
       })
     }
     arr.push(new HtmlWebpackPlugin(conf))

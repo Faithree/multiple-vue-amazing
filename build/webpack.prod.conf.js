@@ -94,6 +94,30 @@ const webpackConfig = merge(baseWebpackConfig, {
         )
       }
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor-admin',
+      chunks: ['vendor'],
+      minChunks: function (module, count) {
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+          module.resource.indexOf('element-ui') != -1
+        )
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor-index',
+      chunks: ['vendor'],
+      minChunks: function (module, count) {
+        return (
+          module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0 &&
+          module.resource.indexOf('bootstrap-vue') != -1
+        )
+      }
+    }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
