@@ -2,6 +2,11 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2><a href="index.html">index Links</a></h2>
+    <el-progress type="circle" :percentage="0"></el-progress>
+    <el-progress type="circle" :percentage="25"></el-progress>
+    <el-progress type="circle" :percentage="80" color="#8e71c7"></el-progress>
+    <el-progress type="circle" :percentage="100" status="success"></el-progress>
+    <el-progress type="circle" :percentage="50" status="exception"></el-progress>
   </div>
 </template>
 
