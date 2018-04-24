@@ -135,9 +135,10 @@ exports.htmlPlugin = function () {
   let arr = []
   entryHtml.forEach((filePath) => {
     let filename = filePath.substring(filePath.lastIndexOf('\/') + 1, filePath.lastIndexOf('.'))
-    let chunks = filename === 'admin' ?
-      ['manifest', 'vendor', 'vendor-admin', 'common-api', filename] :
-      ['manifest', 'vendor', 'vendor-index', 'common-api', filename]
+//     let chunks = filename === 'admin' ?
+//       ['manifest', 'vendor', 'vendor-admin', 'common-api', filename] :
+//       ['manifest', 'vendor', 'vendor-index', 'common-api', filename]
+    let chunks = ['manifest','vendor',filename];
     let conf = {
       // 模板来源
       template: filePath,
@@ -148,6 +149,7 @@ exports.htmlPlugin = function () {
       inject: true
     }
     if (process.env.NODE_ENV === 'production') {
+      conf.filename = '../dist/pages/' + filename + '.html';  //新增
       conf = merge(conf, {
         minify: {
           removeComments: true,
